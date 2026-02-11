@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Batoot ❤️</title>
+<style>
+body{
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#ffd6e8,#ffeaf4);
+  color:#5a0033;
+  direction:rtl;
+  overflow-x:hidden;
+}
+
+#login{
+  display:flex;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+}
+.card{
+  background:#ffffffcc;
+  padding:40px;
+  border-radius:25px;
+  text-align:center;
+  width:320px;
+  box-shadow:0 10px 40px rgba(255,105,180,.3);
+}
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:1px solid #ffc0cb;
+  border-radius:15px;
+}
+button{
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  background:#ff8fcf;
+  color:#fff;
+  cursor:pointer;
+}
+
+#opening{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ffc1da,#ffe6f2);
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+#opening h1{
+  position:relative;
+  z-index:2;
+  font-size:34px;
+}
+.floatHeart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  opacity:.6;
+  animation:floatUp 7s linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(0)}
+  to{transform:translateY(-110vh)}
+}
+
+#site{display:none;padding:20px}
+
+.profile{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:30px;
+}
+.profile img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid #ff8fcf;
+  margin-bottom:10px;
+}
+.profile div{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.counterBox{
+  margin:0 auto 30px;
+  width:70%;
+  text-align:center;
+  padding:20px;
+  border:2px solid #ffb6d9;
+  border-radius:20px;
+  background:#fff0f7;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.galleryTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:20px 0;
+}
+
+.gallery{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+}
+.photoBox{
+  min-width:250px;
+  max-width:300px;
+  padding:10px;
+  border:2px solid #ffc0cb;
+  border-radius:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#fff;
+  flex-direction:column;
+}
+.photoBox img, .photoBox video{
+  width:100%;
+  height:auto; /* ارتفاع تلقائي حسب الصورة */
+  object-fit:contain; /* يظهر الصورة بالكامل */
+  border-radius:15px;
+  margin-bottom:8px;
+}
+
+.addBtn{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  font-size:26px;
+  background:linear-gradient(145deg,#ff9ad5,#ff6fcf);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 5px 15px rgba(255,105,180,.4);
+  transition:.3s;
+}
+.addBtn:hover{
+  transform:scale(1.1) rotate(90deg);
+}
+
+.section{
+  margin:40px 0;
+  padding:20px;
+  background:#fff0f7;
+  border-radius:20px;
+}
+
+.popupBg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.3);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.popup{
+  background:#fff;
+  padding:20px;
+  border-radius:20px;
+  width:280px;
+}
+
+/* تصميم الأغنية مع الغلاف والاسم */
+.songBox{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:20px;
+}
+.songBox img{
+  width:80px;
+  height:80px;
+  border-radius:10px;
+  object-fit:cover;
+}
+.songBox .songInfo{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="card">
+    <h2>Login</h2>
+    <input id="user" placeholder="Username">
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">دخول</button>
+  </div>
+</div>
+
+<div id="opening">
+  <h1>كل عيد حب وانتي حبيبتي ❤️</h1>
+</div>
+
+<div id="site">
+
+  <!-- صورة واسم البروفايل -->
+  <div class="profile">
+    <img src="profile.jpg" alt="صورة البروفايل">
+    <div>Batoot</div>
+  </div>
+
+  <!-- عداد الأيام -->
+  <div class="counterBox" id="counter"></div>
+
+  <!-- معرض الصور والفيديوهات -->
+  <div class="galleryTitle">
+    <h3>ذكرياتنا</h3>
+    <button class="addBtn" onclick="openPopup()">+</button>
+  </div>
+  <div class="gallery" id="gallery"></div>
+
+  <!-- الأغنية مع الغلاف والاسم -->
+  <div class="section">
+    <h3>🎵 الأغنية</h3>
+    <div class="songBox">
+      <img src="cover.jpg" alt="صورة الأغنية">
+      <div class="songInfo">
+        <div style="font-weight:bold;">My Love Song</div>
+        <audio controls src="song.mp3"></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- الرسالة -->
+  <div class="section">
+    <h3>رسالة</h3>
+    <p>اكتب رسالتك هنا 💕</p>
+  </div>
+
+</div>
+
+<!-- بوب أب لإضافة الصور والفيديوهات -->
+<div class="popupBg" id="popupBg">
+  <div class="popup">
+    <h3>إضافة صورة / فيديو</h3>
+    <input type="file" id="mediaInput" accept="image/*,video/*">
+    <input type="text" id="captionInput" placeholder="كابشن">
+    <button onclick="addMedia()">حفظ</button>
+    <button onclick="closePopup()">إغلاق</button>
+  </div>
+</div>
+
+<script>
+const USERNAME="admin";
+const PASSWORD="1234";
+
+function login(){
+  if(user.value===USERNAME && pass.value===PASSWORD){
+    document.getElementById('login').style.display='none';
+    startOpening();
+  }else alert("بيانات غلط");
+}
+
+function startOpening(){
+  const opening=document.getElementById('opening');
+  opening.style.display='flex';
+  for(let i=0;i<25;i++){
+    let heart=document.createElement('div');
+    heart.className='floatHeart';
+    heart.style.left=Math.random()*100+'%';
+    heart.innerHTML='💗';
+    heart.style.animationDuration=(5+Math.random()*4)+'s';
+    opening.appendChild(heart);
+  }
+  setTimeout(()=>{
+    opening.style.display='none';
+    document.getElementById('site').style.display='block';
+  },4000);
+}
+
+function updateCounter(){
+  const target=new Date('2025-06-20T00:00:00');
+  const now=new Date();
+  const diff=target-now;
+
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor(diff/(1000*60*60))%24;
+  const m=Math.floor(diff/(1000*60))%60;
+  const s=Math.floor(diff/(1000))%60;
+
+  counter.innerText=`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية ❤️`;
+}
+setInterval(updateCounter,1000);
+updateCounter();
+
+function openPopup(){popupBg.style.display='flex'}
+function closePopup(){popupBg.style.display='none'}
+
+function addMedia(){
+  const file = mediaInput.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const box = document.createElement('div');
+    box.className = 'photoBox';
+
+    if(file.type.startsWith('image/')) {
+      box.innerHTML = `<img src="${e.target.result}"><div>${captionInput.value}</div>`;
+    } else if(file.type.startsWith('video/')) {
+      box.innerHTML = `<video src="${e.target.result}" controls style="width:100%; border-radius:15px;"></video><div>${captionInput.value}</div>`;
+    }
+
+    gallery.appendChild(box);
+  }
+  reader.readAsDataURL(file);
+  closePopup();
+}
+</script>
+
+</body>
+</html>
